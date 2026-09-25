@@ -13,7 +13,7 @@ def test_verify_title_google(page: Page):
     print("Complete test")
 
 
-def test_open_random_amazon_item(page: Page):
+def click_random_amazon_item(page: Page) -> str:
     page.goto("https://www.amazon.com/")
     amazon_url = re.compile(r"^https://(?:[a-z0-9-]+\.)*amazon\.com(?:/|$)")
     expect(page).to_have_url(amazon_url)
@@ -36,7 +36,8 @@ def test_open_random_amazon_item(page: Page):
 
     assert products, "Amazon homepage did not expose any eligible visible product links."
     selected_link = random.choice(list(products.values()))
-    print(f"Selected Amazon product: {selected_link.get_attribute('href')}")
+    selected_url = urljoin(page.url, selected_link.get_attribute("href") or "")
+    print(f"Selected Amazon product: {selected_url}")
     selected_link.click()
     expect(page).to_have_url(
         re.compile(
@@ -45,5 +46,12 @@ def test_open_random_amazon_item(page: Page):
             re.I,
         )
     )
-    time.sleep(3)
+    return selected_url
 
+
+def test_open_random_amazon_item(page: Page):
+    click_random_amazon_item(page)
+
+
+def test_open_another_random_amazon_item(page: Page):
+    click_random_amazon_item(page)
