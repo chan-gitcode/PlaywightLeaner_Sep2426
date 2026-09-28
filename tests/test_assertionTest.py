@@ -22,3 +22,11 @@ def test_verify_hrm(page: Page):
     expect(page).to_have_url("https://hrm.anhtester.com/erp/desk")
     expect(page).to_have_url(re.compile("hrm.anhtester"))
 
+    #Test attribute
+    logo = page.locator("//div[@class='page-header']//img")
+    expect(logo).to_have_attribute("src","https://hrm.anhtester.com/public/uploads/users/thumb/AnVo2024.png")
+
+    #Test count number
+    page.get_by_role('link', name='Projects').click()
+    numberTableCount = page.locator("//table[@id='xin_table']//tbody/tr")
+    expect(numberTableCount).to_have_count(10)
