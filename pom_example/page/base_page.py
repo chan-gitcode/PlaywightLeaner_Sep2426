@@ -16,7 +16,7 @@ class BasePage:
             element_locator.click()
         except PlaywrightError as e:
             raise PlaywrightError(
-                f"Cannot click on test object {element_locator}"
+                f"Fail to click on test object {element_locator}"
             ) from e
 
     def set_text(self, element_locator: Locator, input_value: str):
@@ -24,7 +24,7 @@ class BasePage:
             element_locator.fill(input_value)
         except PlaywrightError as e:
             raise PlaywrightError(
-                f"Cannot input {input_value} in object {element_locator}"
+                f"Fail to input {input_value} in object {element_locator}"
             ) from e
 
     def select_dropdown(self, element_locator: Locator, option: str, by_label: bool = False):
@@ -36,7 +36,7 @@ class BasePage:
         except PlaywrightError as e:
             select_by = "label" if by_label else "value"
             raise PlaywrightError(
-                f"Cannot choose option '{option}' (by {select_by}) in dropdown {element_locator}"
+                f"Fail to choose option '{option}' (by {select_by}) in dropdown {element_locator}"
             ) from e
 
     def upload_file(self, element_locator: Locator, file_path: str):
@@ -44,19 +44,19 @@ class BasePage:
             element_locator.set_input_files(file_path)
         except FileNotFoundError as e:
             raise PlaywrightError(
-                f"Cannot find file upload: '{file_path}'"
-        ) from e
+                f"File not found for upload: '{file_path}'"
+            ) from e
         except PlaywrightError as e:
             raise PlaywrightError(
-                f"Cannot find upload file '{file_path}' in {element_locator}"
-        ) from e
+                f"Fail to find upload file '{file_path}' in {element_locator}"
+            ) from e
 
     def verify_element_visible(self, element_locator: Locator):
         try:
             expect(element_locator). to_be_visible()
         except PlaywrightError as e:
             raise PlaywrightError(
-                f"Element don't visible in page: {element_locator}"
+                f" Element don't visible in page: {element_locator}"
             ) from e
         
     def verify_element_text(self, element_locator: Locator, expected_text: str, is_extract: bool = True):
@@ -66,7 +66,7 @@ class BasePage:
         except PlaywrightError as e:
             mode = "have_text" if is_extract else "contains_text"
             raise PlaywrightError(
-                f"Verify text fail | Element: {element_locator}"
+                f"Fail to verify text | Element: {element_locator}"
                 f"| Expected: '{expected_text} | Mode: {mode}"
             ) from e
 

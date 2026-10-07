@@ -9,7 +9,6 @@ def test_verify_hrm(page: Page):
     expect(page.locator("//button[@type='submit']")).to_be_visible()
     page.locator("//button[@type='submit']").click()
     expect(page.locator("//button[normalize-space()='Login']")).to_be_hidden()
-
     page.get_by_role("link", name="Employees").click()
     page.get_by_role("link", name="Add New").click()
     # Check if the Designation dropdown is disabled before selecting a Department
