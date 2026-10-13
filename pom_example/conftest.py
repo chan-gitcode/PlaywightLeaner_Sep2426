@@ -12,15 +12,8 @@ def browser_instance():
 
 @pytest.fixture(scope = "function")
 def page(browser_instance):
-    context = browser_instance.new_context( {'width': 1444, 'height': 900}) 
+    context = browser_instance.new_context( {'width': 1920, 'height': 1080}) 
     page = context.new_page()
     yield page
     page.close()
     context.close()
-
-@pytest.fixture(scope="function")
-def logged_in(page):
-    loginPage = LoginPage(page)
-    loginPage.goto("https://hrm.anhtester.com/erp/login")
-    loginPage.login("admin_example", "123456")
-    yield loginPage
